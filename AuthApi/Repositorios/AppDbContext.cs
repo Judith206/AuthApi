@@ -13,6 +13,7 @@ namespace AuthApi.Controllers.Repositorios
 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Rol> Roles { get; set; }
+        public DbSet<CategoriaJN> CategoriasJN { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +29,15 @@ namespace AuthApi.Controllers.Repositorios
                 .HasOne(u => u.Rol)
                 .WithMany(r => r.Usuarios)
                 .HasForeignKey(u => u.RolId);
+
+            //categoria
+            modelBuilder.Entity<CategoriaJN>(entity =>
+            {
+                entity.ToTable("categoriajn");
+                entity.HasKey(c => c.Id);
+                entity.Property(c => c.Nombre).IsRequired().HasMaxLength(100);
+                entity.Property(c => c.Descripcion).IsRequired().HasMaxLength(255);
+            });
         }
     }
 }
